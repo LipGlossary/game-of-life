@@ -37,3 +37,5 @@ li li:hover { background-color: #eeeeff; }
 
 .live { background-color: #444444; }
 .live:hover { background-color: #000022; }
+
+.toggle, .toggle:hover { background-color: #888888; }

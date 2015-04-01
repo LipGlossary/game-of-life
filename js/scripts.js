@@ -3,6 +3,11 @@ $(document).ready( function () {
   // Initialize the grid
   gridInit();
 
+  // click: queue a cell to be toggled
+  $( 'li' ).find( 'li' ).click( function (e) {
+    $( this ).addClass( 'toggle' );
+  } );
+
   // Create and draw a new generation every 1000ms
   setInterval( stepGen, 250 );
 
@@ -35,6 +40,17 @@ var gridStart = [
   '                ',
   '                '
 ];
+
+/*      Utility for replacing a character in a string
+str   - the base string
+index - the character to change
+cha   - the replacement character
+mutates nothing
+returns a new string
+*/
+var replaceAt = function ( str, index, cha ) {
+  return str.substr(0, index) + cha + str.substr(index + 1);
+};
 
 /********************    CALCULATE THE NEXT GENERATION    *********************/
 // Also draws the grid
@@ -117,6 +133,12 @@ var drawGrid = function () {
       // create the selector string
       var selection = $( 'li:nth-of-type(' + (i+1) + ')' ).find( ' li:nth-of-type(' + (j+1) + ')' );
       
+      // propagate the toggle to the grid
+      if ( selection.hasClass('toggle') ) {
+        grid[i] = grid[i][j] === '#' ? replaceAt( grid[i], j, ' ' ) : replaceAt( grid[i], j, '#' );
+        selection.removeClass( 'toggle' );
+      }
+
       // reset cell
       selection.removeClass( 'live' );
       // paint live cells

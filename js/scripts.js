@@ -3,6 +3,9 @@ $(document).ready( function () {
   // Initialize the grid
   gridInit();
 
+  // Create and draw a new generation every 1000ms
+  setInterval( stepGen, 250 );
+
 } );
 
 /***************************    DATA AND HELPERS    ***************************/
@@ -32,6 +35,51 @@ var gridStart = [
   '                ',
   '                '
 ];
+
+/********************    CALCULATE THE NEXT GENERATION    *********************/
+// Also draws the grid
+
+var stepGen = function () {
+
+  var step = new Array();  // start with a blank grid
+  for ( var i = 0; i < h; i++ ) {
+    step.push( '' );  // add a row
+    for ( var j = 0; j < w; j++ ) {
+
+      var nb = neighbours( i, j );  // get the number of live neighbours
+
+      // live cell cases
+      if ( grid[i][j] === '#') {
+
+        // 1. Any live cell with fewer than two live neighbours
+        //    dies, as if caused by under-population. (SEE BELOW)
+
+        // 2. Any live cell with two or three live neighbours
+        //    lives on to the next generation.
+        if ( nb === 2 || nb === 3 ) { 
+          step[i] += '#';
+        }
+
+        // 3. Any live cell with more than three live neighbours
+        //    dies, as if by overcrowding. (SEE BELOW)
+
+        else { step[i] += ' '; }  // kill the cell
+
+      // dead cell cases
+      } else if ( nb === 3 ) {
+        // 4. Any dead cell with exactly three live neighbours
+        //    becomes a live cell, as if by reproduction.
+        step[i] += '#';
+      }
+
+      else { step[i] += ' '; }  // cell stays dead
+
+    }
+  }
+  grid = step;  // new grid is now canonical
+  drawGrid();   // draw it
+
+};
 
 /********************    COUNT A CELL'S LIVE NEIGHBOURS    ********************/
 

@@ -32,4 +32,8 @@ li:last-child li { border-bottom: 1px solid black; }
 li li:last-child { border-right: 1px solid black; }
 
 /* INTERACTIVE */
+
 li li:hover { background-color: #eeeeff; }
+
+.live { background-color: #444444; }
+.live:hover { background-color: #000022; }

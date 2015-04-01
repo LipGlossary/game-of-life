@@ -33,6 +33,32 @@ var gridStart = [
   '                '
 ];
 
+/********************    COUNT A CELL'S LIVE NEIGHBOURS    ********************/
+
+var neighbours = function ( row, col ) {
+
+  var nb = '';
+
+  // row above
+  if ( row > 0 ) {
+    nb += col > 0 ? grid[row-1].substr(col-1, 3) : grid[row-1].substr(col, 2);
+  }
+
+  // inline
+  nb += col > 0 ? grid[row].substr(col-1, 3) : grid[row].substr(col, 2);
+
+  // row below
+  if ( row < h-1 ) {
+    nb += col > 0 ? grid[row+1].substr(col-1, 3) : grid[row+1].substr(col, 2);
+  }
+
+  nb = nb.match(/#/g);                        // find the live neighbours
+  if ( nb === null ) { return 0; }            // nothing alive
+  nb = nb.length;                             // count 'em
+  return grid[row][col] === '#' ? nb-1 : nb;  // don't count yourself
+
+};
+
 /****************************    DRAW THE GRID    *****************************/
 
 var drawGrid = function () {

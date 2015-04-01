@@ -1,0 +1,35 @@
+/* GENERAL */
+
+html { font-size: 16px; }
+
+body {
+  font-size: 81.3%;    /* 1em = 10pt, relative to the browser's default size */
+  line-height: 1.2em;
+  margin: 2em;
+}
+
+/* GRID SCAFFOLDING */
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+li li {
+  display: inline-block;
+  position: relative;
+  width: 2em;
+  height: 2em;
+  float: left;
+  border-top: 1px solid black;
+  border-left: 1px solid black;
+}
+
+#grid > ul > li { clear: both; }
+
+li:last-child li { border-bottom: 1px solid black; }
+li li:last-child { border-right: 1px solid black; }
+
+/* INTERACTIVE */
+li li:hover { background-color: #eeeeff; }

@@ -8,6 +8,9 @@ body {
   margin: 2em;
 }
 
+/* CONTROL PANEL */
+#controls { margin-bottom: 1em; }
+
 /* GRID SCAFFOLDING */
 
 ul {

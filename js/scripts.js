@@ -8,8 +8,15 @@ $(document).ready( function () {
     $( this ).addClass( 'toggle' );
   } );
 
-  // Create and draw a new generation every 1000ms
-  setInterval( stepGen, 250 );
+  // button: pause/unpause animation
+  $( '#pause' ).click( function (e) {
+    paused = !paused;
+    if ( paused ) { $( this ).text( 'PLAY' ); }
+    else { $( this ).text( 'PAUSE' ); }
+  } );
+
+  // Trigger the animation every 250 milliseconds
+  setInterval( animate, 250 );
 
 } );
 
@@ -41,6 +48,8 @@ var gridStart = [
   '                '
 ];
 
+var paused = false;
+
 /*      Utility for replacing a character in a string
 str   - the base string
 index - the character to change
@@ -50,6 +59,10 @@ returns a new string
 */
 var replaceAt = function ( str, index, cha ) {
   return str.substr(0, index) + cha + str.substr(index + 1);
+};
+
+var animate = function () {
+  if ( !paused ) { stepGen(); }
 };
 
 /********************    CALCULATE THE NEXT GENERATION    *********************/

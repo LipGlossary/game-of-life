@@ -15,6 +15,22 @@ $(document).ready( function () {
     else { $( this ).text( 'PAUSE' ); }
   } );
 
+  // button: add column
+  $( '#w-plus' ).click( function (e) { addCol(); } );
+
+  // button: remove column
+  $( '#w-minus' ).click( function (e) { 
+    if ( w > 1 ) { removeCol(); }
+  } );
+
+  // button: add row
+  $( '#h-plus' ).click( function (e) { addRow(); } );
+
+  // button: remove row
+  $( '#h-minus' ).click( function (e) { 
+    if ( h > 1 ) { removeRow(); }
+  } );
+
   // button: attempts to clear the board
   $( '#clear' ).click( function (e) {
     $( '.live' ).addClass( 'toggle' );
@@ -183,6 +199,10 @@ var gridInit = function () {
     grid[i]
   }
 
+  // Populate the controls
+  $( '#width' ).find( 'p' ).text( 'width: ' + w );
+  $( '#height' ).find( 'p' ).text( 'height: ' + h );
+
   // Initialize the world data
   if ( gridStart ) { grid = gridStart; }  // Use starting pattern
   else {                                  // Or make a blank grid
@@ -196,5 +216,77 @@ var gridInit = function () {
   }
 
   drawGrid();
+
+};
+
+/*******************    ADD AND REMOVE COLUMNS AND ROWS    ********************/
+
+//    ADD A COLUMN    ================
+var addCol = function () {
+
+  $( 'li' ).find( 'ul' ).append( '<li></li>' );
+  for ( var i = 0; i < h; i++ ) {
+    grid[i] += ' ';
+  }
+  w++;
+
+  $( 'li' ).find( 'li:last-of-type' ).click( function (e) {
+    $( this ).addClass( 'toggle' );
+  } );
+
+  $( '#width' ).find( 'p' ).text( 'width: ' + w );
+
+};
+
+//    REMOVE A COLUMN    =============
+var removeCol = function () {
+
+  // DOM elements
+  $( 'li' ).find( 'li:last-of-type' ).remove();
+
+  // grid data
+  for ( var i = 0; i < h; i++ ) {
+    grid[i] = grid[i].slice(0, -1);
+  }
+  w--;
+
+  // control panel
+  $( '#width' ).find( 'p' ).text( 'width: ' + w );
+
+};
+
+//    ADD A ROW    ===================
+var addRow = function () {
+
+  $( '#grid' ).children( 'ul' ).append( '<li><ul></ul></li>' );   // DOM elements
+  grid.push( '' );                                    // grid data
+  for ( var i = 0; i < w; i++ ) {
+    $( 'li:last-of-type' ).find( 'ul' ).append( '<li></li>' );  // DOM elements
+    grid[h] += ' ';                                   // grid data
+  }
+  h++;
+
+  // bind click handler
+  $( 'li:last-of-type' ).find( 'li' ).click( function (e) {
+    $( this ).addClass( 'toggle' );
+  } );
+
+  // control panel
+  $( '#height' ).find( 'p' ).text( 'height: ' + h );
+
+};
+
+//    REMOVE A ROW    ================
+var removeRow = function () {
+
+  // DOM elements
+  $( '#grid' ).children( 'ul' ).children( 'li:last-of-type' ).remove();
+
+  // grid data
+  grid.pop();
+  h--;
+
+  // control panel
+  $( '#height' ).find( 'p' ).text( 'height: ' + h );
 
 };

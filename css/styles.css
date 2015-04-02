@@ -6,10 +6,13 @@ body {
   font-size: 81.3%;    /* 1em = 10pt, relative to the browser's default size */
   line-height: 1.2em;
   margin: 2em;
+  font-family: sans-serif;
 }
 
 /* CONTROL PANEL */
 #controls { margin-bottom: 1em; }
+#controls * { display: inline-block; }
+#controls > * { margin-right: 2em; }
 
 /* GRID SCAFFOLDING */
 

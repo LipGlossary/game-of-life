@@ -15,6 +15,11 @@ $(document).ready( function () {
     else { $( this ).text( 'PAUSE' ); }
   } );
 
+  // button: attempts to clear the board
+  $( '#clear' ).click( function (e) {
+    $( '.live' ).addClass( 'toggle' );
+  } );
+
   // Trigger the animation every 250 milliseconds
   setInterval( animate, 250 );
 

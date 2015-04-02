@@ -5,7 +5,7 @@ $(document).ready( function () {
 
   // click: queue a cell to be toggled
   $( 'li' ).find( 'li' ).click( function (e) {
-    $( this ).addClass( 'toggle' );
+    $( this ).toggleClass( 'toggle' );
   } );
 
   // button: pause/unpause animation

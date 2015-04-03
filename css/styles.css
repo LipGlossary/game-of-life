@@ -39,9 +39,9 @@ li li:last-child { border-right: 1px solid black; }
 
 /* INTERACTIVE */
 
-li li:hover { background-color: #eeeeff; }
+li li:hover { background-color: #ddddff; }
 
-.live { background-color: #444444; }
-.live:hover { background-color: #000022; }
+.live { background-color: #6666ff; }
+.live:hover { background-color: #444488 !important; }
 
-.toggle, .toggle:hover { background-color: #888888; }
+.toggle, .toggle:hover { background-color: #888888 !important; }

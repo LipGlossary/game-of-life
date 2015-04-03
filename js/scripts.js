@@ -60,9 +60,9 @@ var gridStart = [
   '                ',
   '                ',
   '                ',
-  '    #           ',
-  '      #         ',
-  '   ##  ###      ',
+  '    0           ',
+  '      0         ',
+  '   00  000      ',
   '                ',
   '                ',
   '                ',
@@ -70,6 +70,10 @@ var gridStart = [
 ];
 
 var paused = false;
+
+// colors
+var hot = [ 244, 24, 123 ];
+var cold = [ 14, 73, 211 ];
 
 /*      Utility for replacing a character in a string
 str   - the base string
@@ -99,7 +103,7 @@ var stepGen = function () {
       var nb = neighbours( i, j );  // get the number of live neighbours
 
       // live cell cases
-      if ( grid[i][j] === '#') {
+      if ( grid[i][j].match(/\d/) ) {
 
         // 1. Any live cell with fewer than two live neighbours
         //    dies, as if caused by under-population. (SEE BELOW)
@@ -107,7 +111,7 @@ var stepGen = function () {
         // 2. Any live cell with two or three live neighbours
         //    lives on to the next generation.
         if ( nb === 2 || nb === 3 ) { 
-          step[i] += '#';
+          step[i] += Math.min( +grid[i][j] + 1, 9 );
         }
 
         // 3. Any live cell with more than three live neighbours
@@ -119,7 +123,7 @@ var stepGen = function () {
       } else if ( nb === 3 ) {
         // 4. Any dead cell with exactly three live neighbours
         //    becomes a live cell, as if by reproduction.
-        step[i] += '#';
+        step[i] += '0';
       }
 
       else { step[i] += ' '; }  // cell stays dead
@@ -150,10 +154,10 @@ var neighbours = function ( row, col ) {
     nb += col > 0 ? grid[row+1].substr(col-1, 3) : grid[row+1].substr(col, 2);
   }
 
-  nb = nb.match(/#/g);                        // find the live neighbours
+  nb = nb.match(/\d/g);                        // find the live neighbours
   if ( nb === null ) { return 0; }            // nothing alive
   nb = nb.length;                             // count 'em
-  return grid[row][col] === '#' ? nb-1 : nb;  // don't count yourself
+  return grid[row][col].match(/\d/) ? nb-1 : nb;  // don't count yourself
 
 };
 
@@ -169,14 +173,26 @@ var drawGrid = function () {
       
       // propagate the toggle to the grid
       if ( selection.hasClass('toggle') ) {
-        grid[i] = grid[i][j] === '#' ? replaceAt( grid[i], j, ' ' ) : replaceAt( grid[i], j, '#' );
+        grid[i] = grid[i][j].match(/\d/) ? replaceAt( grid[i], j, ' ' ) : replaceAt( grid[i], j, '0' );
         selection.removeClass( 'toggle' );
       }
 
       // reset cell
       selection.removeClass( 'live' );
+      selection.css( 'background-color', '' );
+      
       // paint live cells
-      if ( grid[i][j] === '#' ) { selection.addClass( 'live' ); }
+      if ( grid[i][j].match(/\d/) ) { 
+        selection.addClass( 'live' );
+        var color = 'rgb('
+          + Math.trunc( hot[0] - ( ( hot[0] - cold[0] ) / 10 * grid[i][j] ) )
+          + ','
+          + Math.trunc( hot[1] - ( ( hot[1] - cold[1] ) / 10 * grid[i][j] ) )
+          + ','
+          + Math.trunc( hot[2] - ( ( hot[2] - cold[2] ) / 10 * grid[i][j] ) )
+          + ')';
+        selection.css( 'background-color', color );
+      }
 
     }
   }
